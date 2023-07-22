@@ -1,19 +1,30 @@
 'use strict';
 let cells = document.querySelectorAll('#field td');
+
+let i = 0;
+
+const step = function () {
+    this.textContent = ['X', 'O'][i % 2];
+    this.removeEventListener('click', step);
+
+    if (isVictory(cells)) {
+        alert(this.textContent);
+        resetGame();
+        i = 0;
+    } else if (i == 8) {
+        alert('ничья');
+        resetGame();
+        i = 0;
+    } else {
+        i++;
+    }
+};
+
 start(cells);
+
 function start(cells) {
-    let i = 0;
     for (let cell of cells) {
-        cell.addEventListener('click', function step() {
-            this.textContent = ['X', 'O'][i % 2];
-            this.removeEventListener('click', step);
-
-            if (isVictory(cells)) {
-                alert(this.textContent);
-            }
-
-            i++;
-        });
+        cell.addEventListener('click', step);
     }
 }
 
@@ -40,4 +51,12 @@ function isVictory(cells) {
     }
 
     return false;
+}
+
+function resetGame() {
+    for (let cell of cells) {
+        cell.removeEventListener('click', step);
+        cell.textContent = '';
+        cell.addEventListener('click', step);
+    }
 }
