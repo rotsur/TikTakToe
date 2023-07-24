@@ -8,7 +8,7 @@ const step = function () {
     this.removeEventListener('click', step);
 
     if (isVictory(cells)) {
-        alert(this.textContent);
+        alert(`${this.textContent} WIN`);
         resetGame();
         i = 0;
     } else if (i == 8) {
